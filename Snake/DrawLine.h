@@ -1,6 +1,8 @@
 #ifndef DRAWLINE_H
 #define DRAWLINE_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #define XEND (xStart + cos(dir)*length)
 #define YEND (yStart + sin(dir)*length)
 
@@ -32,5 +34,11 @@ void clearWindow(int** window, int rows, int cols);
 
 //draws the window on screen
 void drawWindow(int** window, int rows, int cols);
+
+void writeBuffer(int** window, char* buffer, int rows, int cols);
+
+void printBuffer(char* buffer);
+
+char* initBuffer(int rows, int cols);
 
 #endif //DRAWLINE_H

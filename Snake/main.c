@@ -6,7 +6,6 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include "DrawLine.h"
-//#include "LineTools.h"
 #include "PointTools.h"
 #include <Windows.h>
 
@@ -15,10 +14,10 @@
 #define LEFT  M_PI
 #define RIGHT 0
 
-#define FRAMETIME 40
+#define FRAMETIME 50
 
-#define WINROWS 20
-#define WINCOLS 40
+#define WINROWS 24
+#define WINCOLS 50
 
 pthread_mutex_t inputMutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t inputCond = PTHREAD_COND_INITIALIZER;
@@ -123,6 +122,8 @@ void* directionSetter(void* arg){
 void* showDisplay(void* arg){
 	srand(time(NULL));
 	int **window = initWindow(WINROWS, WINCOLS);
+	char* buffer = initBuffer(WINROWS, WINCOLS);
+
 	position* snake = (position*)arg;
 	position food;
 
@@ -145,9 +146,14 @@ void* showDisplay(void* arg){
 		drawLines(window, snake->head, '#');
 		drawLines(window, food.head, '@');
 		
+		writeBuffer(window, buffer, WINROWS, WINCOLS);
+
 		system("cls");
 		
-		drawWindow(window, WINROWS, WINCOLS);
+		printBuffer(buffer);
+
+		//drawWindow(window, WINROWS, WINCOLS);
+
 		printf("Length: %d, sx: %d, sy: %d, dir: %.2f fx: %d, fy: %d", snake->length, snake->x, snake->y, snake->direction, food.x, food.y);
 		Sleep(FRAMETIME);
 

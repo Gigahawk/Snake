@@ -1,7 +1,9 @@
+#include "DrawLine.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "DrawLine.h"
+#include <string.h>
+
 
 int ** initWindow(int rows, int cols)
 {
@@ -22,6 +24,13 @@ int ** initWindow(int rows, int cols)
 	return window;
 }
 
+char* initBuffer(int rows, int cols)
+{
+	char* buffer;
+	buffer = (char*)malloc((rows + 10)*(cols + 10)*sizeof(char));
+	return buffer;
+}
+
 void deinitWindow(int** window, int rows)
 {
 	for (int i = 0; i<rows; i++)
@@ -39,8 +48,31 @@ void clearWindow(int** window, int rows, int cols){
 		{
 			window[i][j] = 32;
 		}
-		
+
 	}
+}
+
+void writeBuffer(int** window, char* buffer, int rows, int cols)
+{
+	char* line;
+	line = (char*)malloc((cols + 5)*sizeof(char));
+	buffer[0] = 0;
+
+	for (int i = (rows - 1); i >= 0; i--)
+	{
+		for (int j = 0; j<cols; j++)
+		{
+			line[j] = window[i][j];
+		}
+		line[cols] = '\n';
+		line[cols + 1] = 0;
+		strcat(buffer, line);
+	}
+}
+
+void printBuffer(char* buffer)
+{
+	printf("%s", buffer);
 }
 
 void drawWindow(int** window, int rows, int cols)
